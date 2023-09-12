@@ -10,7 +10,7 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
 	const { username, password } = req.body;
 	// waits for username match
-	const user = await UserModel.findOne({ username: username });
+	const user = await UserModel.findOne({ username });
 	if (user) {
 		return res.json({ message: "User already exists!" });
 	}
@@ -26,9 +26,9 @@ router.post("/register", async (req, res) => {
 // login route
 router.post("/login", async (req, res) => {
 	const { username, password } = req.body;
-	const user = await UserModel.findOne({ username: username });
+	const user = await UserModel.findOne({ username });
 	if (!user) {
-		return res.json({ message: "User Doesn't Exist!" });
+		return res.json({ message: "Username or password is incorrect!" });
 	}
 	// password matches one in database
 	const isPasswordValid = await bcrypt.compare(password, user.password);
