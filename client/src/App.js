@@ -4,11 +4,13 @@ import { Home } from "./pages/home";
 import { Auth } from "./pages/auth";
 import { CreateRecipe } from "./pages/create-recipe";
 import { SavedRecipes } from "./pages/saved-recipes";
+import { Nav } from "./components/nav";
 
 function App() {
 	return (
 		<div className="App">
 			<Router>
+				<Nav />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/auth" element={<Auth />} />
