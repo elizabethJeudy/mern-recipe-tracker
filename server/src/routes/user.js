@@ -9,6 +9,7 @@ const router = express.Router();
 // response sends data make to user making api request
 router.post("/register", async (req, res) => {
 	const { username, password } = req.body;
+
 	// waits for username match
 	const user = await UserModel.findOne({ username });
 	if (user) {
