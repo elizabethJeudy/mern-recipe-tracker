@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
 	return (
@@ -13,15 +15,21 @@ export const Auth = () => {
 const Login = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [_, setCookies] = useCookies(["access_token"]);
+	const navigate = useNavigate();
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios.post("http://localhost:3005/auth/login", {
+			const response = await axios.post("http://localhost:3001/auth/login", {
 				username,
 				password,
 			});
-			alert("Login successful!");
+			setCookies("access_token", response.data.token);
+			// stores user id
+			window.localStorage.setItem("userID", response.data.userID);
+			// once logged in navigates to home page
+			navigate("/");
 		} catch (error) {
 			console.error(error);
 		}
@@ -45,7 +53,7 @@ const Register = () => {
 	const onSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			await axios.post("http://localhost:3005/auth/register", {
+			await axios.post("http://localhost:3001/auth/register", {
 				username,
 				password,
 			});
